@@ -7,19 +7,26 @@
 </head>
 <body>
     <h1>ПРОЕКТ 1</h1>
-    <form id="nameForm">
-        <label for="nameInput">Введите имя:</label>
-        <input type="text" id="nameInput" required>
-        <button type="submit">Отправить</button>
-    </form>
     <h2 id="output"></h2>
 
     <script>
-        document.getElementById('nameForm').onsubmit = function(event) {
-            event.preventDefault();
-            const name = document.getElementById('nameInput').value;
+        // Функция для получения имени из URL
+        function getNameFromURL() {
+            const path = window.location.pathname; // Получаем путь из URL
+            const parts = path.split('/'); // Разбиваем путь по слешам
+            if (parts.length > 2 && parts[1] === 'name') {
+                return decodeURIComponent(parts[2]); // Возвращаем введенное имя
+            }
+            return null; // Если имя не найдено
+        }
+
+        // Получаем имя из URL и отображаем приветствие
+        const name = getNameFromURL();
+        if (name) {
             document.getElementById('output').innerText = `Привет, ${name}!`;
-        };
+        } else {
+            document.getElementById('output').innerText = 'Введите имя в URL в формате /name/<ваше_имя>';
+        }
     </script>
 </body>
 </html>
